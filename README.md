@@ -18,6 +18,12 @@ $ mvn spring-boot:run
 
 ## Historias de usuario
 
+* Login
+
+```
+El cliente debe acceder al sistema utilizando una autenticación de usuario y contraseña
+```
+
 * Encontrar mesa disponible
 
 ```
@@ -42,9 +48,33 @@ El cliente solicita un grupo de platos, que puede ser en diferentes ocaciones, a
 El cliente solicita pagar el total de las ordenes asignadas a la mesa
 ```
 
+## Seguridad
+
+La seguridad se implementa con el flujo implicito de OAuth2
+
+```
+La llamada a cada API debe llevar el siguiente header
+
+authentication = bearer 78b247d1-29a5-437c-887d-e7f609ff3442
+```
+
 ## Diseño
 
 El diseño del API desarrollada se basa en criterios funcionales y no funcionales, tal como el nivel de madures según la escala Richarson.
+
+* POST /restaurant/api/oauth/token
+
+```
+Body x-www-form-urlencoded
+grant_type = password
+username = user
+password = password
+
+Servicio autenticado de manera básica, se utiliza un ClientId y un ClientSecret para acceder.
+ClientId = client
+ClientSecret = password
+```
+
 
 * GET /restaurant/api/tables
 
