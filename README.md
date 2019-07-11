@@ -56,6 +56,8 @@ La seguridad se implementa con el flujo implicito de OAuth2
 La llamada a cada API debe llevar el siguiente header
 
 authentication = bearer 78b247d1-29a5-437c-887d-e7f609ff3442
+
+El token debe ser actualizado con el token devuelto por el API /restaurant/api/oauth/token
 ```
 
 ## Diseño
