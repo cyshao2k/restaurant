@@ -156,3 +156,7 @@ El formato de la fecha debe ser yyyyMMdd, por ejemplo: 20190710 (año 2019, mes 
 ## Arquitectura
 
 La aplicación fue construida como un proyecto Maven Spring Boot y hace uso de una base de datos H2 DataBase.
+
+## Uso del API
+
+Se encuentra en el repositorio una Postman Collection para ser importada con el conjunto de llamadas al API .

@@ -1,8 +1,10 @@
 package cl.transbank.tech.restaurant.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +13,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import cl.transbank.tech.restaurant.dao.OrderDao;
 import cl.transbank.tech.restaurant.dao.TableDao;
+import cl.transbank.tech.restaurant.entity.DishEntity;
+import cl.transbank.tech.restaurant.entity.OrderEntity;
 import cl.transbank.tech.restaurant.entity.TableEntity;
 import cl.transbank.tech.restaurant.exeption.ItemNotFoundException;
+import cl.transbank.tech.restaurant.to.Order;
 import cl.transbank.tech.restaurant.to.Table;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -21,6 +27,9 @@ public class TableManagerImplTest {
 	
 	@Mock
 	private TableDao dao;
+	
+	@Mock
+	private OrderDao oDao;
 	
 	@InjectMocks
 	private TableManagerImpl service;
@@ -66,7 +75,7 @@ public class TableManagerImplTest {
 	}
 	
 	@Test
-	public void setStatus() throws ItemNotFoundException {
+	public void setStatusTest() throws ItemNotFoundException {
 		TableEntity tableEntity = new TableEntity();
 		tableEntity.setId(1);
 		tableEntity.setStatus("available");
@@ -84,4 +93,38 @@ public class TableManagerImplTest {
 		service.setStatus(status);
 	}
 
+	@Test
+	public void listOrdersTest()  throws ItemNotFoundException {
+		List<OrderEntity> oes = new ArrayList<>();
+		
+		TableEntity table = new TableEntity();
+		table.setId(1);
+		table.setStatus("unavailable");
+		
+		Set<DishEntity> dishes = new HashSet<>();
+		DishEntity de = new DishEntity();
+		de.setId(1);
+		de.setName("Plato");
+		de.setCost(1000);
+		dishes.add(de);
+		
+		OrderEntity oe = new OrderEntity();
+		oe.setId(1);
+		oe.setTable(table);
+		oe.setDishes(dishes);
+		
+		oes.add(oe);
+		
+		Optional<TableEntity> optional = Optional.of(table);
+		
+		Mockito.when(dao.findById(Mockito.anyInt())).thenReturn(optional);
+		Mockito.when(oDao.findByTable_Id(Mockito.anyInt())).thenReturn(oes);
+		
+		Table tableParam = new Table();
+		tableParam.setId(1);
+		tableParam.setStatus("unavailable");
+		List<Order> orders = service.listOrders(tableParam);
+		
+		assert(!orders.isEmpty());
+	}
 }
